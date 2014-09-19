@@ -22,25 +22,41 @@ public class JsonUtil {
 		for (Triple t : pq.triples) {
 			arrBuilder.add(sparqlTripleToJson(t));
 		}
+		builder.add("triples", arrBuilder);
 		JsonArrayBuilder varListBuilder = Json.createArrayBuilder();
 		for (Variable var : pq.vars.values()) {
 			varListBuilder.add(elementToJson(var));
 		}
 		builder.add("vars", varListBuilder);
-		builder.add("triples", arrBuilder);
-		builder.add("focusVar", pq.focusVar.name);
+		if (pq.focusVar != null) {
+			builder.add("focusVar", pq.focusVar.name);
+		}
 		return builder.build();
 	}
 	
 	JsonObject elementToJson(Element e) {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
-		builder.add("name", e.name);
-		builder.add("trace", stringListToJson(e.trace));
-		if (e instanceof Variable) {
-			Variable v = (Variable)e;
-			if (v.mappedType != null) {
-				builder.add("type", typeToJson(v.mappedType));
+		if (e != null) {
+			builder.add("name", e.name);
+			if (e.trace != null) {
+				builder.add("trace", stringListToJson(e.trace));
 			}
+			if (e instanceof Variable) {
+				Variable v = (Variable)e;
+				if (v.mappedType != null) {
+					builder.add("type", typeToJson(v.mappedType));
+				}
+			}
+	
+			/*JsonObjectBuilder _builder = Json.createObjectBuilder();
+			if (e.isConstant()) {
+				_builder.add("const", builder.build());
+			} else {
+				_builder.add("var", builder.build());
+			}
+			return _builder.build();*/
+		} else {
+			builder.add("name", "null");
 		}
 		return builder.build();
 	}

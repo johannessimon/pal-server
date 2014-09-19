@@ -1,3 +1,4 @@
+/* http://prismjs.com/download.html?themes=prism&languages=sql */
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
@@ -13,6 +14,8 @@ pre[class*="language-"] {
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
 
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
@@ -79,14 +82,20 @@ pre[class*="language-"] {
 .token.property,
 .token.tag,
 .token.boolean,
-.token.number {
-	color: #905;
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+/*	color: #905;*/
 }
 
 .token.selector,
 .token.attr-name,
-.token.string {
-	color: #690;
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #905;
 }
 
 .token.operator,
@@ -95,7 +104,7 @@ pre[class*="language-"] {
 .language-css .token.string,
 .style .token.string {
 	color: #a67f59;
-	background: hsla(0,0%,100%,.5);
+	background: hsla(0, 0%, 100%, .5);
 }
 
 .token.atrule,
@@ -104,10 +113,14 @@ pre[class*="language-"] {
 	color: #07a;
 }
 
+.token.function {
+	color: #DD4A68;
+}
 
 .token.regex,
-.token.important {
-	color: #e90;
+.token.important,
+.token.variable {
+	color: #2e782c;
 }
 
 .token.important {
@@ -117,3 +130,4 @@ pre[class*="language-"] {
 .token.entity {
 	cursor: help;
 }
+

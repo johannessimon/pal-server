@@ -1,25 +1,77 @@
 <div class="container">
-	<h3>Input Interpretation</h3>
-    {.section query_interpretation}
-    
-	{.repeated section triples}
+	{.section answers}
+	<div class="panel panel-default">
+		<table class="table">
+			<tr>
+				<th>Results</th>
+			</tr>
+			{.repeated section @}
+			<tr>
+				<td><a href="{uri}">{label}</a></td>
+			</tr>
+			{.end}
+		 </table>
+	 </div>
+	{.or}
+	<div class="alert alert-danger" role="alert">Sorry, I was unable to interpret your query :(</div>
+    {.end}
+</div>
+
+<div class="container">
+<div id="dropdown-details">
+	<h5><a href="#">Show me the details! <span class="glyphicon glyphicon-chevron-down"></span></a></h5>
+</div>
+</div>
+
+
+<div id="details" class="container">
+	<h3>Parsed Input</h3>
+	<div class="well" id="dependency_tree">
+	</div>
+	
+    {.section pseudo_query}
+	<h3>Input Interpretation (Unmapped)</h3>
 	<div class="well">
+	<table>
+	{.repeated section triples}
+	<tr>
 	{.repeated section @}
-	<div>
+	<td>
+	<div class="btn-group btn-breadcrumb triple-element">
+	    <a href="#" class="btn btn-primary">{name}</a>
+	</div>
+	</td>
+    {.end}
+    </tr>
+    {.end}
+	</table>
+	</div>
+    {.end}
+	
+    {.section query_interpretation}
+	<h3>Input Interpretation</h3>
+	<div class="well">
+	<table>
+	{.repeated section triples}
+	<tr>
+	{.repeated section @}
+	<td>
 	<div class="btn-group btn-breadcrumb triple-element">
 		{.repeated section trace}
 	    <a href="#" class="btn btn-primary">{e}</a>
 	    {.end}
 	</div>
-	</div>
+	</td>
     {.end}
-	</div>
+    </tr>
     {.end}
+	</table>
+	</div>
     
 	<h3>Variable Type Constraints</h3>
 	<div class="well">
-	<div>
 	{.repeated section vars}
+	<div>
 	<div class="btn-group btn-breadcrumb triple-element">
 		{.section type}
 		{.repeated section trace}
@@ -27,36 +79,13 @@
 	    {.end}
 	    {.end}
 	</div>
+	</div>
     {.end}
 	</div>
-	</div>
+    {.end}
     
-	<br/>
-	{.or}
-		<div class="alert alert-danger" role="alert">Sorry, I was unable to interpret your query :(</div>
-    {.end}
-</div>
-
-<div class="container">
+    {.section sparql_query}
 	<h3>SPARQL Query</h3>
-    <code><pre>{.section sparql_query}{@}{.or}-{.end}</pre></code>
-</div>
-    
-<div class="container">
-	<h3>Query Results</h3>
-	<div class="panel panel-default">
-		<table class="table">
-			<tr>
-				<th>{.section query_interpretation}{focusVar}{.or}-{.end}</th>
-			</tr>
-	        {.section answers}
-			{.repeated section @}
-			<tr>
-				<td><a href="{e}">{e}</a></td>
-			</tr>
-			{.end}
-			{.or}
-			{.end}
-		 </table>
-	 </div>
+    <pre><code class="language-sparql">{@}</code></pre>
+    {.end}
 </div>
