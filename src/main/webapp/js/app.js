@@ -18,11 +18,11 @@ var main = function() {
 
 var query = function(queryStr) {
     var sparqlEndpoint = $("input:radio[name='p']:checked").val();
-    var queryUrl = '/ask?p=' + encodeURIComponent(sparqlEndpoint) + '&q=' + encodeURIComponent(queryStr);
+    var queryUrl = 'ask?p=' + encodeURIComponent(sparqlEndpoint) + '&q=' + encodeURIComponent(queryStr);
     //var queryUrl = '/ask.json';
     $('#results').html("");
     $.getJSON(queryUrl, function(data) {
-	$.get('/template.txt', function(answerTemplate) {
+	$.get('template.txt', function(answerTemplate) {
 	    template = jsontemplate.Template(answerTemplate);
 	    html = template.expand(data);
 	    $('#results').html(html);

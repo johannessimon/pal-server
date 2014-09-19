@@ -39,7 +39,7 @@ public class Servlet extends HttpServlet {
 		QueryMapper queryMapper;
 	}
 	
-	Map<String, SparqlEndpointConnector> sparqlEndpointConnectors = new HashMap<>();
+	Map<String, SparqlEndpointConnector> sparqlEndpointConnectors = new HashMap<String, SparqlEndpointConnector>();
 	
 	public Servlet() {
 		try {
