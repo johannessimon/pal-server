@@ -38,6 +38,7 @@ var showAnswers = function(data) {
 	$('svg').attr("width", width*0.8);
 	$('svg').attr("height", height*0.8);
 	$('text').attr("font-family", "arial");
+	$('polygon').first().attr("fill", "none");
     });
 };
 
