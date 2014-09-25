@@ -30,7 +30,7 @@ import de.tudarmstadt.lt.pal.stanford.StanfordPseudoQueryBuilder;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 
 /**
- * Servlet implementation class Test
+ * Web backend for PAL responding with JSON to POST queries
  */
 @WebServlet(value="/ask", loadOnStartup=1)
 public class Servlet extends HttpServlet {
@@ -43,10 +43,11 @@ public class Servlet extends HttpServlet {
 	
 	public Servlet() {
 		try {
-			List<String> files = IOUtils.readLines(getClass().getClassLoader().getResourceAsStream("sparql_endpoints/"), "UTF-8");
+			InputStream is = getClass().getClassLoader().getResourceAsStream("sparql_endpoints/");
+			List<String> files = IOUtils.readLines(is, "UTF-8");
 			loadSparqlEndpointConnectors(files);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException("Error reading sparql_endpoints/ directory", e);
 		}
 	}
 	
@@ -59,8 +60,8 @@ public class Servlet extends HttpServlet {
 				sep.kb = new KnowledgeBaseConnector(propFile);
 				sep.queryMapper = new QueryMapper(sep.kb);
 				sparqlEndpointConnectors.put(id, sep);
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				throw new RuntimeException("Error reading SPARQL endpoint configuration file (sparql_endpoints/" + pFileStr + ")", e);
 			}
 		}
 	}
@@ -99,20 +100,16 @@ public class Servlet extends HttpServlet {
 					hasQueryInterpretation = true;
 			    	builder.add("query_interpretation", json.queryToJson(queryInterpretation));
 			    	builder.add("sparql_query", StringEscapeUtils.escapeHtml(sep.kb.queryToSPARQLFull(queryInterpretation)));
-					try {
-						Collection<Answer> answers = sep.kb.query(queryInterpretation);
-			    		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
-			    		for(Answer a : answers) {
-			    			String s = a.value;
-			    			JsonObjectBuilder b = Json.createObjectBuilder();
-			    			b.add("uri", s);
-			    			b.add("label", sep.kb.getResourceLabel(s));
-			    			arrBuilder.add(b.build());
-			    		}
-			    		builder.add("answers", arrBuilder.build());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					Collection<Answer> answers = sep.kb.query(queryInterpretation);
+		    		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+		    		for(Answer a : answers) {
+		    			String s = a.value;
+		    			JsonObjectBuilder b = Json.createObjectBuilder();
+		    			b.add("uri", s);
+		    			b.add("label", sep.kb.getResourceLabel(s));
+		    			arrBuilder.add(b.build());
+		    		}
+		    		builder.add("answers", arrBuilder.build());
 				}
 			}
 			if (!hasQueryInterpretation && pseudoQuery != null) {
@@ -123,12 +120,4 @@ public class Servlet extends HttpServlet {
     	writer.println(json);
     	writer.close();			
     }
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
 }
