@@ -19,7 +19,7 @@
 
 <div class="container">
 <div id="dropdown-details">
-	<h5><a href="#">Show me the details! <span class="glyphicon glyphicon-chevron-down"></span></a></h5>
+	<h5><a href="javascript:void(0)">Show me the details! <span class="glyphicon glyphicon-chevron-down"></span></a></h5>
 </div>
 </div>
 

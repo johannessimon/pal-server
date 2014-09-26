@@ -8,6 +8,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.tudarmstadt.lt.pal.Query;
 import de.tudarmstadt.lt.pal.Triple;
 import de.tudarmstadt.lt.pal.Triple.Element;
@@ -82,7 +84,7 @@ public class JsonUtil {
 		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
 		for(String s : c) {
 			JsonObjectBuilder builder = Json.createObjectBuilder();
-			builder.add("e", s);
+			builder.add("e", StringEscapeUtils.escapeHtml(s));
 			arrBuilder.add(builder.build());
 		}
 		return arrBuilder.build();

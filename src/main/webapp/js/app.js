@@ -2,18 +2,19 @@ var l;
 
 var main = function() {
     Ladda.bind( 'input[type=button]' );
-    $('.go-btn').click(function() {
-	l = Ladda.create(this);
-	l.start();
-	var queryStr = $('#query').val();
-	query(queryStr);
-    });
+    $('.go-btn').click(query);
 
     $('#query').keyup(function(event){
 	if(event.keyCode == 13) { // Enter
-	    $('.go-btn').click();
+	    query();
 	}
     });
+    
+    if (window.location.hash) {
+	var queryStr = window.location.hash.substring(1);
+	$('#query').val(queryStr);
+	query();
+    }
 };
 
 var showAnswers = function(data) {
@@ -42,7 +43,10 @@ var showAnswers = function(data) {
     });
 };
 
-var query = function(queryStr) {
+var query = function() {
+    var queryStr = $('#query').val(); 
+    l = Ladda.create($('.ladda-button')[0]);
+    l.start();
     var sparqlEndpoint = $("input:radio[name='p']:checked").val();
     var queryUrl = 'ask?p=' + encodeURIComponent(sparqlEndpoint) + '&q=' + encodeURIComponent(queryStr);
     //var queryUrl = '/ask.json';
