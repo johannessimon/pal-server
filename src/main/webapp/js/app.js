@@ -19,27 +19,31 @@ var main = function() {
 
 var showAnswers = function(data) {
     $.get('template.txt', function(answerTemplate) {
-	template = jsontemplate.Template(answerTemplate);
-	html = template.expand(data);
-	$('#results').html(html);
 	l.stop();
-	Prism.highlightAll();
+	try {
+	    template = jsontemplate.Template(answerTemplate);
+	    html = template.expand(data);
+	    $('#results').html(html);
+	    Prism.highlightAll();
 
-	$('#details').hide();
-	$('#dropdown-details').click(function() {
-	    $input = $( this );
-	    $target = $('#details');
-	    $target.slideToggle();
-	});
+	    $('#details').hide();
+	    $('#dropdown-details').click(function() {
+		$input = $( this );
+		$target = $('#details');
+		$target.slideToggle();
+	    });
 
-	svg = Viz(data.dependency_tree, "svg");
-	$('#dependency_tree').html(svg);
-	width = parseInt($('svg').attr("width"));
-	height = parseInt($('svg').attr("height"));
-	$('svg').attr("width", width*0.8);
-	$('svg').attr("height", height*0.8);
-	$('text').attr("font-family", "arial");
-	$('polygon').first().attr("fill", "none");
+	    svg = Viz(data.dependency_tree, "svg");
+	    $('#dependency_tree').html(svg);
+	    width = parseInt($('svg').attr("width"));
+	    height = parseInt($('svg').attr("height"));
+	    $('svg').attr("width", width*0.8);
+	    $('svg').attr("height", height*0.8);
+	    $('text').attr("font-family", "arial");
+	    $('polygon').first().attr("fill", "none");
+	} catch (err) {
+	    alert("Failed to fill HTML template with JSON response from server. " + err.name + ": " + err.message);
+	}
     });
 };
 

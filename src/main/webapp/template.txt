@@ -7,7 +7,11 @@
 			</tr>
 			{.repeated section @}
 			<tr>
+				{.section resource}
 				<td><a href="{uri}">{label}</a></td>
+				{.or}
+				<td>{literal.label}</td>
+				{.end}
 			</tr>
 			{.end}
 		 </table>
