@@ -47,11 +47,15 @@ public class Servlet extends HttpServlet {
 	public Servlet() {
 		try {
 			log.info("Initializing servlet...");
-			log.info("Loading sparql_endpoints/ dir in classpath...");
+			log.info("Loading sparql_endpoints/ dir from classpath...");
 			InputStream is = getClass().getClassLoader().getResourceAsStream("sparql_endpoints/");
-			List<String> files = IOUtils.readLines(is, "UTF-8");
-			loadSparqlEndpointConnectors(files);
-			log.info("Done loading sparql_endpoints/ dir. Endpoint configurations loaded: " + sparqlEndpointConnectors.keySet());
+			if (is != null) {
+				List<String> files = IOUtils.readLines(is, "UTF-8");
+				loadSparqlEndpointConnectors(files);
+				log.info("Done loading sparql_endpoints/ dir. Endpoint configurations loaded: " + sparqlEndpointConnectors.keySet());
+			} else {
+				log.error("Can't find sparql_endpoints/ dir in classpath! Check if you properly generated the WAR file without errors.");
+			}
 		} catch (Exception e) {
 			log.error("Error loading sparql_endpoints/ dir (" + e.getClass().getCanonicalName() + "): " + e.getMessage());
 			throw new RuntimeException("Error reading sparql_endpoints/ directory", e);
