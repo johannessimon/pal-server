@@ -53,7 +53,7 @@ public class Servlet extends HttpServlet {
 			loadSparqlEndpointConnectors(files);
 			log.info("Done loading sparql_endpoints/ dir. Endpoint configurations loaded: " + sparqlEndpointConnectors.keySet());
 		} catch (Exception e) {
-			log.error("Error loading sparql_endpoints/ dir: " + e.getMessage());
+			log.error("Error loading sparql_endpoints/ dir (" + e.getClass().getCanonicalName() + "): " + e.getMessage());
 			throw new RuntimeException("Error reading sparql_endpoints/ directory", e);
 		}
 		log.info("Servlet initialized.");
