@@ -13,7 +13,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+//import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +33,7 @@ import edu.stanford.nlp.semgraph.SemanticGraph;
 /**
  * Web backend for PAL responding with JSON to POST queries
  */
-@WebServlet(value="/ask", loadOnStartup=1)
+//@WebServlet(value="/ask", loadOnStartup=1)
 public class Servlet extends HttpServlet {
 	private class SparqlEndpointConnector {
 		KnowledgeBaseConnector kb;
@@ -143,7 +143,7 @@ public class Servlet extends HttpServlet {
 		    			arrBuilder.add(_b.build());
 		    		}
 		    		builder.add("answers", arrBuilder.build());
-				} else if (queryInterpretation.focusVar == null) {
+				} else if (queryInterpretation != null && queryInterpretation.focusVar == null) {
 					log.warn("Pseudo query has no focus variable.");
 				}
 			}

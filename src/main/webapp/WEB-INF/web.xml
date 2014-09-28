@@ -10,5 +10,11 @@
     <servlet>
 	    <servlet-name>index</servlet-name>
 	    <servlet-class>de.tudarmstadt.lt.pal_server.Servlet</servlet-class>
+	    <load-on-startup>1</load-on-startup>
 	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>index</servlet-name>
+		<url-pattern>/ask</url-pattern>
+	</servlet-mapping>
 </web-app>
