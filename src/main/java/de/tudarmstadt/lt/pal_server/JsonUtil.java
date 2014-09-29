@@ -16,6 +16,9 @@ import de.tudarmstadt.lt.pal.Triple.Element;
 import de.tudarmstadt.lt.pal.Triple.TypeConstraint;
 import de.tudarmstadt.lt.pal.Triple.Variable;
 
+/**
+ * Helper class for building JSON from a collection of relevant classes from PAL
+ */
 public class JsonUtil {
 	JsonObject queryToJson(Query pq) {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -49,14 +52,6 @@ public class JsonUtil {
 					builder.add("type", typeToJson(v.mappedType));
 				}
 			}
-	
-			/*JsonObjectBuilder _builder = Json.createObjectBuilder();
-			if (e.isConstant()) {
-				_builder.add("const", builder.build());
-			} else {
-				_builder.add("var", builder.build());
-			}
-			return _builder.build();*/
 		} else {
 			builder.add("name", "null");
 		}

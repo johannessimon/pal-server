@@ -63,6 +63,9 @@ public class Servlet extends HttpServlet {
 		log.info("Servlet initialized.");
 	}
 	
+	/**
+	 * Loads SPARQL endpoint configuration files (*.properties) and constructs SparqlEndpointConnectors from them
+	 */
 	private void loadSparqlEndpointConnectors(Collection<String> files) {
 		for (String pFileStr : files) {
 			InputStream propFile = getClass().getClassLoader().getResourceAsStream("sparql_endpoints/" + pFileStr);
@@ -87,6 +90,9 @@ public class Servlet extends HttpServlet {
 		return candidateUri.startsWith("http://");
 	}
 	
+	/**
+	 * Reconstructs the original URL for this request (e.g. http://foo.bar/a/?b=c)
+	 */
 	private String getRequestString(HttpServletRequest request) {
 		String str = request.getRequestURL().toString();
 		if (request.getQueryString() != null) {
