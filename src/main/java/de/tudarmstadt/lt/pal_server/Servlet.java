@@ -82,6 +82,7 @@ public class Servlet
                 SparqlEndpointConnector sep = new SparqlEndpointConnector();
                 String id = pFileStr.getName().substring(0,
                         pFileStr.getName().length() - ".properties".length());
+                sep.kb = new KnowledgeBaseConnector(propFile);
                 sep.queryMapper = new QueryMapper(sep.kb);
                 sparqlEndpointConnectors.put(id, sep);
             }
