@@ -1,6 +1,6 @@
 var l;
 
-var main = function() {
+function main() {
     Ladda.bind( 'input[type=button]' );
     $('.go-btn').click(query);
 
@@ -11,13 +11,21 @@ var main = function() {
     });
     
     if (window.location.hash) {
-	var queryStr = window.location.hash.substring(1);
+	var queryStr = getParamFromHash(window.location.hash, "q");
+	var sparqlEndpoint = getParamFromHash(window.location.hash, "p");
 	$('#query').val(queryStr);
+	$("input:radio[name='p'][value='" + sparqlEndpoint + "']").prop("checked", true);
 	query();
     }
 };
 
-var showAnswers = function(data) {
+function getParamFromHash(url, parm) {
+    var re = new RegExp("#.*[?&]" + parm + "=([^&]+)(&|$)");
+    var match = url.match(re);
+    return(match ? match[1] : "");
+}
+
+function showAnswers(data) {
     $.get('template.txt', function(answerTemplate) {
 	l.stop();
 	try {
@@ -47,7 +55,7 @@ var showAnswers = function(data) {
     });
 };
 
-var query = function() {
+function query() {
     var queryStr = $('#query').val(); 
     l = Ladda.create($('.ladda-button')[0]);
     l.start();
