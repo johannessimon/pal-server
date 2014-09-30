@@ -10,6 +10,7 @@ import javax.json.JsonObjectBuilder;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import de.tudarmstadt.lt.pal.MappedString.TraceElement;
 import de.tudarmstadt.lt.pal.Query;
 import de.tudarmstadt.lt.pal.Triple;
 import de.tudarmstadt.lt.pal.Triple.Element;
@@ -44,7 +45,7 @@ public class JsonUtil {
 		if (e != null) {
 			builder.add("name", e.name);
 			if (e.trace != null) {
-				builder.add("trace", stringListToJson(e.trace));
+				builder.add("trace", traceToJson(e.trace));
 			}
 			if (e instanceof Variable) {
 				Variable v = (Variable)e;
@@ -62,7 +63,7 @@ public class JsonUtil {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (t.typeURI != null) {
 			builder.add("uri", t.typeURI.value);
-			builder.add("trace", stringListToJson(t.typeURI.trace));
+			builder.add("trace", traceToJson(t.typeURI.trace));
 		}
 		return builder.build();
 	}
@@ -73,6 +74,23 @@ public class JsonUtil {
 		builder.add(elementToJson(t.predicate));
 		builder.add(elementToJson(t.object));
 		return builder.build();
+	}
+	
+	JsonArray traceToJson(Collection<TraceElement> c) {
+		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+		for(TraceElement e : c) {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObjectBuilder _builder = Json.createObjectBuilder();
+			_builder.add("value", StringEscapeUtils.escapeHtml(e.value));
+			if (e.url != null && !e.url.isEmpty()) {
+				_builder.add("url", e.url);
+				builder.add("with-url", _builder.build());
+			} else {
+				builder.add("without-url", _builder.build());
+			}
+			arrBuilder.add(builder.build());
+		}
+		return arrBuilder.build();
 	}
 	
 	JsonArray stringListToJson(Collection<String> c) {

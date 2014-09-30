@@ -54,23 +54,22 @@
 	
     {.section query_interpretation}
 	<h3>Input Interpretation</h3>
-	<div class="well">
-	<table>
 	{.repeated section triples}
-	<tr>
+	<div class="well">
 	{.repeated section @}
-	<td>
 	<div class="btn-group btn-breadcrumb triple-element">
 		{.repeated section trace}
-	    <a href="#" class="btn btn-primary">{e}</a>
+		{.section with-url}
+	    <a href="{url}" class="btn btn-primary">{value}</a>
+	    {.or}
+	    <span class="btn btn-primary" style="cursor:default;">{without-url.value}</span>
+	    {.end}
 	    {.end}
 	</div>
-	</td>
+	<br/>
     {.end}
-    </tr>
-    {.end}
-	</table>
 	</div>
+    {.end}
     
 	<h3>Variable Type Constraints</h3>
 	<div class="well">
@@ -79,7 +78,11 @@
 	<div class="btn-group btn-breadcrumb triple-element">
 		{.section type}
 		{.repeated section trace}
-	    <a href="#" class="btn btn-success">{e}</a>
+		{.section with-url}
+	    <a href="{url}" class="btn btn-success">{value}</a>
+	    {.or}
+	    <span class="btn btn-success" style="cursor:default;">{without-url.value}</span>
+	    {.end}
 	    {.end}
 	    {.end}
 	</div>
