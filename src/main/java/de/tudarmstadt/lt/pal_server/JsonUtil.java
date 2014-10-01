@@ -35,7 +35,7 @@ public class JsonUtil {
 		}
 		builder.add("vars", varListBuilder);
 		if (pq.focusVar != null) {
-			builder.add("focusVar", pq.focusVar.name);
+			builder.add("focusVar", StringEscapeUtils.escapeHtml(pq.focusVar.name));
 		}
 		return builder.build();
 	}
@@ -43,7 +43,7 @@ public class JsonUtil {
 	JsonObject elementToJson(Element e) {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (e != null) {
-			builder.add("name", e.name);
+			builder.add("name", StringEscapeUtils.escapeHtml(e.name));
 			if (e.trace != null) {
 				builder.add("trace", traceToJson(e.trace));
 			}
@@ -62,7 +62,7 @@ public class JsonUtil {
 	JsonObject typeToJson(TypeConstraint t) {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (t.typeURI != null) {
-			builder.add("uri", t.typeURI.value);
+			builder.add("uri", StringEscapeUtils.escapeHtml(t.typeURI.value));
 			builder.add("trace", traceToJson(t.typeURI.trace));
 		}
 		return builder.build();
@@ -83,7 +83,7 @@ public class JsonUtil {
 			JsonObjectBuilder _builder = Json.createObjectBuilder();
 			_builder.add("value", StringEscapeUtils.escapeHtml(e.value));
 			if (e.url != null && !e.url.isEmpty()) {
-				_builder.add("url", e.url);
+				_builder.add("url", StringEscapeUtils.escapeHtml(e.url));
 				builder.add("with-url", _builder.build());
 			} else {
 				builder.add("without-url", _builder.build());

@@ -164,10 +164,10 @@ public class Servlet
                         String val = a.value;
                         String label = a.label != null ? a.label : a.value;
                         JsonObjectBuilder b = Json.createObjectBuilder();
-                        b.add("label", label);
+                        b.add("label", StringEscapeUtils.escapeHtml(label));
                         JsonObjectBuilder _b = Json.createObjectBuilder();
                         if (stringIsUri(val)) {
-                            b.add("uri", val);
+                            b.add("uri", StringEscapeUtils.escapeHtml(val));
                             _b.add("resource", b.build());
                         }
                         else {
