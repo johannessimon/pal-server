@@ -152,33 +152,35 @@ public class Servlet
             boolean hasQueryInterpretation = false;
             if (pseudoQuery != null && pseudoQuery.focusVar != null) {
                 ComparablePair<Query, Float> scoredQueryInterpretation = sep.queryMapper.getBestSPARQLQuery(pseudoQuery);
-                Query queryInterpretation = scoredQueryInterpretation.key;
-                if (queryInterpretation != null && queryInterpretation.focusVar != null) {
-                    hasQueryInterpretation = true;
-                    builder.add("query_interpretation", json.queryToJson(queryInterpretation));
-                    builder.add("sparql_query", StringEscapeUtils.escapeHtml(sep.kb
-                            .queryToSPARQLFull(queryInterpretation)));
-                    Collection<Answer> answers = sep.kb.query(queryInterpretation);
-                    JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
-                    for (Answer a : answers) {
-                        String val = a.value;
-                        String label = a.label != null ? a.label : a.value;
-                        JsonObjectBuilder b = Json.createObjectBuilder();
-                        b.add("label", StringEscapeUtils.escapeHtml(label));
-                        JsonObjectBuilder _b = Json.createObjectBuilder();
-                        if (stringIsUri(val)) {
-                            b.add("uri", StringEscapeUtils.escapeHtml(val));
-                            _b.add("resource", b.build());
-                        }
-                        else {
-                            _b.add("literal", b.build());
-                        }
-                        arrBuilder.add(_b.build());
-                    }
-                    builder.add("answers", arrBuilder.build());
-                }
-                else if (queryInterpretation != null && queryInterpretation.focusVar == null) {
-                    log.warn("Pseudo query has no focus variable.");
+                if (scoredQueryInterpretation != null) {
+                    Query queryInterpretation = scoredQueryInterpretation.key;
+	                if (queryInterpretation != null && queryInterpretation.focusVar != null) {
+	                    hasQueryInterpretation = true;
+	                    builder.add("query_interpretation", json.queryToJson(queryInterpretation));
+	                    builder.add("sparql_query", StringEscapeUtils.escapeHtml(sep.kb
+	                            .queryToSPARQLFull(queryInterpretation)));
+	                    Collection<Answer> answers = sep.kb.query(queryInterpretation);
+	                    JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+	                    for (Answer a : answers) {
+	                        String val = a.value;
+	                        String label = a.label != null ? a.label : a.value;
+	                        JsonObjectBuilder b = Json.createObjectBuilder();
+	                        b.add("label", StringEscapeUtils.escapeHtml(label));
+	                        JsonObjectBuilder _b = Json.createObjectBuilder();
+	                        if (stringIsUri(val)) {
+	                            b.add("uri", StringEscapeUtils.escapeHtml(val));
+	                            _b.add("resource", b.build());
+	                        }
+	                        else {
+	                            _b.add("literal", b.build());
+	                        }
+	                        arrBuilder.add(_b.build());
+	                    }
+	                    builder.add("answers", arrBuilder.build());
+	                }
+	                else if (queryInterpretation != null && queryInterpretation.focusVar == null) {
+	                    log.warn("Pseudo query has no focus variable.");
+	                }
                 }
             }
             if (!hasQueryInterpretation && pseudoQuery != null) {
