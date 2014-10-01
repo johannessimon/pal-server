@@ -28,6 +28,7 @@ import de.tudarmstadt.lt.pal.Query;
 import de.tudarmstadt.lt.pal.QueryMapper;
 import de.tudarmstadt.lt.pal.stanford.StanfordDependencyParser;
 import de.tudarmstadt.lt.pal.stanford.StanfordPseudoQueryBuilder;
+import de.tudarmstadt.lt.pal.util.ComparablePair;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 
 /**
@@ -150,7 +151,8 @@ public class Servlet
             log.info("Pseudo query from GET request: " + pseudoQuery);
             boolean hasQueryInterpretation = false;
             if (pseudoQuery != null && pseudoQuery.focusVar != null) {
-                Query queryInterpretation = sep.queryMapper.getBestSPARQLQuery(pseudoQuery);
+                ComparablePair<Query, Float> scoredQueryInterpretation = sep.queryMapper.getBestSPARQLQuery(pseudoQuery);
+                Query queryInterpretation = scoredQueryInterpretation.key;
                 if (queryInterpretation != null && queryInterpretation.focusVar != null) {
                     hasQueryInterpretation = true;
                     builder.add("query_interpretation", json.queryToJson(queryInterpretation));
